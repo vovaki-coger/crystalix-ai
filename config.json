@@ -1,0 +1,24 @@
+{
+  "ollama_url": "http://localhost:11434",
+  "model": "llava",
+  "hotkey": "F9",
+  "overlay": {
+    "width": 380,
+    "height": 220,
+    "opacity": 0.92,
+    "position_x": -400,
+    "position_y": 10,
+    "font_size": 11,
+    "auto_analyze_interval": 0
+  },
+  "analysis": {
+    "max_tokens": 300,
+    "timeout_seconds": 60,
+    "language": "ru"
+  },
+  "capture": {
+    "monitor": 1,
+    "resize_width": 1280,
+    "resize_height": 720
+  }
+}
