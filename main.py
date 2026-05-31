@@ -12,7 +12,13 @@ from tkinter import font as tkfont
 
 from analyzer import analyze_screen, check_ollama, check_vision_model, load_config
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
+def _base_dir() -> str:
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+CONFIG_PATH = os.path.join(_base_dir(), "config.json")
 
 
 class CrystalixOverlay:
