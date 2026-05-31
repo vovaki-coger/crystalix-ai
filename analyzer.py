@@ -1,6 +1,7 @@
 import base64
 import json
 import os
+import sys
 import time
 from io import BytesIO
 
@@ -8,8 +9,15 @@ import mss
 import requests
 from PIL import Image
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
-KNOWLEDGE_PATH = os.path.join(os.path.dirname(__file__), "knowledge.md")
+
+def _base_dir() -> str:
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+CONFIG_PATH = os.path.join(_base_dir(), "config.json")
+KNOWLEDGE_PATH = os.path.join(_base_dir(), "knowledge.md")
 
 
 def load_config():
