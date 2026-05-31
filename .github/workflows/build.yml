@@ -1,0 +1,44 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller mss Pillow requests keyboard
+
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --windowed --name "CrystalixAI" --icon=NONE main.py
+
+      - name: Copy config files
+        run: |
+          copy config.json dist\config.json
+          copy knowledge.md dist\knowledge.md
+          copy start.bat dist\start.bat
+
+      - name: Create ZIP with EXE
+        run: |
+          powershell Compress-Archive -Path dist\* -DestinationPath CrystalixAI-Windows.zip
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          files: CrystalixAI-Windows.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
